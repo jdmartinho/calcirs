@@ -3,38 +3,41 @@
   <head>
     <meta charset="utf-8">
     <title></title>
+    <script src="./calcirs.js" text="text/javascript"></script>
   </head>
   <body>
-  <div id="calculator">
-  	<!-- Screen and clear key -->
-  	<div class="top">
-  		<span class="clear">C</span>
-  		<div class="screen"></div>
-  	</div>
+  <div>
+    <form name="myform" action="" method="get">
+      Rendimento de Trabalho Dependente (Categoria A):
+      <input type="text" name="rendimentoCatA" value=""></p>
+      Rendimento de Trabalho Independente (Categoria B):
+      <input type="text" name="rendimentoCatB" value=""></p>
+      Rendimento Capital (Categoria E):
+      <input type="text" name="rendimentoCatE" value=""></p>
+      Rendimento Predial (Categoria F):
+      <input type="text" name="rendimentoCatF" value=""></p>
+      Rendimento de Pensões (Categoria G):
+      <input type="text" name="rendimentoCatG" value=""></p>
+      Número de Dependentes com mais de 3 anos:
+      <input type="text" name="dependentesMais3Anos" value=""></p>
+      Número de Dependentes com menos de 3 anos:
+      <input type="text" name="dependentesMenos3Anos" value=""></p>
+      Número de Ascendentes a cargo:
+      <input type="text" name="ascendentes" value=""></p>
+      Estado Civil:</p>
+      Solteiro/Viúvo/Divorciado <input type="radio" name="estadoCivil" value="solteiro">
+      Casado/União de Facto <input type="radio" name="estadoCivil" value="casado"></p>
+      Despesas de Saúde:
+      <input type="text" name="despesasSaude" value=""></p>
+      Despesas de Educação:
+      <input type="text" name="despesasEducacao" value=""></p>
+      Despesas com IVA:
+      <input type="text" name="despesasIVA" value=""></p>
+      Despesas Gerais:
+      <input type="text" name="despesasGerais" value=""></p>
 
-  	<div class="keys">
-  		<!-- operators and other keys -->
-  		<span>7</span>
-  		<span>8</span>
-  		<span>9</span>
-  		<span class="operator">+</span>
-  		<span>4</span>
-  		<span>5</span>
-  		<span>6</span>
-  		<span class="operator">-</span>
-  		<span>1</span>
-  		<span>2</span>
-  		<span>3</span>
-  		<span class="operator">÷</span>
-  		<span>0</span>
-  		<span>.</span>
-  		<span class="eval">=</span>
-  		<span class="operator">x</span>
-  	</div>
+      <input type="button" name="button" value="Click" onClick="init(this.form)">
+    </form>
   </div>
-
-  <!-- PrefixFree -->
-  <script src="http://thecodeplayer.com/uploads/js/prefixfree-1.0.7.js" type="text/javascript" type="text/javascript"></script>
-
   </body>
 </html>

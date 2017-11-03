@@ -57,32 +57,95 @@ var dependentes3Anos;
 var dependentes;
 var ascendentes;
 var estadoCivil; // 1 - Solteiro/Divorciado/Viuvo; 2 - Casado/Uniao de Facto
+var familiaMonoparental;
+var perdasCapitais;
+var condominios;
+var obras;
+var impostoMunicipalImoveis;
 
-function algoritmo(rendimentoTotal){
+function init(form) {
+  console.log("init");
+  rendimentoDependente = form.rendimentoCatA.value;
+  rendimentoIndependente = form.rendimentoCatB.value;
+  rendimentoCapital = form.rendimentoCatE.value;
+  rendimentoPredial = form.rendimentoCatF.value;
+  rendimentoPensoes = form.rendimentoCatG.value;
+  dependentes = form.dependentesMais3Anos.value;
+  dependentes3Anos = form.dependentesMenos3Anos.value;
+  ascendentes = form.ascendentes.value;
+  estadoCivil = form.estadoCivil.value;
+  despesasSaude = form.despesasSaude.value;
+  despesasEducacao = form.despesasEducacao.value;
+  despesasIVA = form.despesasIVA.value;
+  despesasGerais = form.despesasGerais.value;
+  if(estadoCivil == "solteiro"){
+    numContribuintes = 1;
+  } else {
+    numContribuintes = 2;
+  }
+  if(numContribuintes == 1 && (dependentes > 0 || dependentes3Anos > 0)){
+    familiaMonoparental = true;
+  } else {
+    familiaMonoparental = false;
+  }
+  console.log(rendimentoDependente)
+  console.log(rendimentoIndependente)
+  console.log(rendimentoCapital)
+  console.log(rendimentoPredial)
+  console.log(rendimentoPensoes)
+  console.log(dependentes3Anos)
+  console.log(dependentes)
+  console.log(ascendentes)
+  console.log(estadoCivil)
+  console.log(despesasSaude)
+  console.log(despesasEducacao)
+  console.log(despesasIVA)
+  console.log(despesasGerais)
+
+  algoritmo();
+}
+
+function algoritmo(){
   // Calcular Deducoes Especificas
-  var dedEspecificas = calcDeducoesEspecificas();
+  //var dedEspecificas = calcDeducoesEspecificas();
   // Subtrair as deducoes especificas ao rendimento total para calcular o rendimento colectavel
-  var rendColect = rendimentoTotal - dedEspecificas;
+  var rendColect = calcRendColectavel();
+  console.log("Rendimento Colectavel: " + rendColect);
   // Apurar Taxa de Solidariedade devida
   var impostoSolidariedadeDevido = calcTaxaSolidariedadeDevida(rendColect);
+  console.log("Imposto Solidariedade: " + impostoSolidariedadeDevido);
   // Calcular o quociente familiar
   var quocienteFamiliar = calcQuocienteFamiliar();
+  console.log("Quociente Familiar: " + quocienteFamiliar);
   // Dividir o rendimento colectal pelo quociente familiar para calcular o rendimento colectavel corrigido
   var rendColectCorrigido = rendColect / quocienteFamiliar;
+  console.log("Rendimento Colectavel Corrigido: " + rendColectCorrigido);
   // Calcular o imposto devido do rendimento colectavel corrigido
   var impostoApurado = calcImposto(rendColectCorrigido);
+  console.log("Imposto Apurado: " + impostoApurado);
   // Multiplicar o imposto pelo quociente familiar para apurar a colecta total
   var colectaTotal = impostoApurado * quocienteFamiliar;
+  console.log("Colecta Total: " + colectaTotal);
   // Adicionar imposto de Solidariedade a colecta total
   var colectaApuradaTotal = colectaTotal + impostoSolidariedadeDevido;
+  console.log("Colecta Apurada Total: " + colectaApuradaTotal);
   // Calcular deducoes a colecta
   var deducoesColecta = calcDeducoesTotal();
+  console.log("Deducoes a Colecta: " + deducoesColecta);
   // Subtrair deducoes a colecta da colecta total para calcular o imposto devido
-  var impostoFinal = calcColectaLiquida();
+  var impostoFinal = calcColectaLiquida(colectaApuradaTotal, deducoesColecta);
+  console.log("Imposto Final: " + impostoFinal);
   return impostoFinal
 }
 
 // Deducoes Especificas
+function calcRendColectavel() {
+  return calcRendColectavelCatA(rendimentoDependente) +
+    calcRendColectavelCatB(rendimentoIndependente) +
+    calcRendColectavelCatE(rendimentoCapital) +
+    calcRendColectavelCatF(rendimentoPredial) +
+    calcRendColectavelCatG(rendimentoPensoes);
+}
 
 function calcRendColectavelCatA(rendimentoDependente){
   if(rendimentoDependente <= deducaoRendimentoDependente) {
@@ -93,22 +156,61 @@ function calcRendColectavelCatA(rendimentoDependente){
 }
 
 function calcRendColectavelCatB(rendimentoIndependente) {
-  return rendimentoIndependente * deducaoRendimentoIndependentePercent;
+  if(rendimentoDependente <= 0) {
+    return 0;
+  } else {
+    return rendimentoIndependente * deducaoRendimentoIndependentePercent;
+  }
 }
 
-function calcRendColectavel(rendimentoDependente, rendimentoIndependente) {
-  return calcRendColectavelCatA(rendimentoDependente) +
-    calcRendColectavelCatB(rendimentoIndependente);
+function calcRendColectavelCatE(rendimentoCapital) {
+  if(rendimentoCapital <= 0){
+    return 0;
+  } else {
+    return rendimentoCapital - perdasCapitais;
+  }
+}
+
+function calcRendColectavelCatF(rendimentoPredial){
+  if(rendimentoPredial <= 0){
+    return 0;
+  } else {
+    return rendimentoPredial - condominios - obras - impostoMunicipalImoveis;
+  }
+}
+
+function calcRendColectavelCatG(rendimentoPensoes){
+  if(rendimentoPensoes <= 0){
+    return 0;
+  } else {
+    return rendimentoPensoes;
+  }
+}
+
+// Taxa de Solidariedade
+function calcTaxaSolidariedadeDevida(rendimentoColectavel){
+  var result;
+  if(rendimentoColectavel > limiteSolidariedade1 && rendimentoColectavel <= limiteSolidariedade2){
+    console.log("Taxa de Solidariedade 1")
+    result = rendimentoColectavel * taxaSolidariedade1
+    console.log(result);
+    return result;
+  } else if(rendimentoColectavel > limiteSolidariedade2){
+    console.log("Taxa de Solidariedade 2");
+    result = ((rendimentoColectavel - limiteSolidariedade2) * taxaSolidariedade2) + impostoMaximoSolidariedade1;
+    console.log(result);
+    return result;
+  } else {
+    return 0
+  }
 }
 
 // Quociente Familiar
-
-function quocienteFamiliar(){
+function calcQuocienteFamiliar(){
   return numContribuintes + (dependentes3Anos + dependentes + ascendentes) * quocienteDependente
 }
 
 // Calculo imposto
-
 function calcImposto(rendimentoColectavel) {
   var result;
   if(rendimentoColectavel <= 0){
@@ -148,25 +250,12 @@ function calcImposto(rendimentoColectavel) {
   }
 }
 
-// Taxa de Solidariedade
-function calcTaxaSolidariedadeDevida(rendimentoColectavel){
-  var result;
-  if(rendimentoColectavel > limiteSolidariedade1 && rendimentoColectavel <= limiteSolidariedade2){
-    console.log("Taxa de Solidariedade 1")
-    result = rendimentoColectavel * taxaSolidariedade1
-    console.log(result);
-    return result;
-  } else if(rendimentoColectavel > limiteSolidariedade2){
-    console.log("Taxa de Solidariedade 2");
-    result = ((rendimentoColectavel - limiteSolidariedade2) * taxaSolidariedade2) + impostoMaximoSolidariedade1;
-    console.log(result);
-    return result;
-  } else {
-    return 0
-  }
-}
-
 // Deducoes Colecta
+function calcDeducoesTotal(){
+  return calcDespesasSaude(despesasSaude) + calcDespesasEducacao(despesasEducacao) +
+    calcDespesasGerais(despesasGerais) + calcDespesasIVA(despesasIVA) +
+    calcDeducoesDependentes() + calcDeducoesAscendentes();
+}
 
 function calcDespesasSaude(despesasSaude){
   var taxaSaude = 0.15;
@@ -238,12 +327,7 @@ function calcDeducoesAscendentes(){
   }
 }
 
-function calcDeducoesTotal(despesasSaude, despesasEducacao, despesasGerais, despesasIVA){
-  return calcDespesasSaude(despesasSaude) + calcDespesasEducacao(despesasEducacao) +
-    calcDespesasGerais(despesasGerais) + calcDespesasIVA(despesasIVA) +
-    calcDeducoesDependentes() + calcDeducoesAscendentes();
-}
-
+// Colecta Liquida
 function calcColectaLiquida(impostoApurado, despesas){
   return impostoApurado - despesas;
 }
