@@ -1,43 +1,75 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-    <script src="./calcirs.js" text="text/javascript"></script>
-  </head>
-  <body>
+
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="./style.css">
+  <title>Calc IRS</title>
+</head>
+
+<body>
   <div>
     <form name="myform" action="" method="get">
-      Rendimento de Trabalho Dependente (Categoria A):
-      <input type="text" name="rendimentoCatA" value=""></p>
-      Rendimento de Trabalho Independente (Categoria B):
-      <input type="text" name="rendimentoCatB" value=""></p>
-      Rendimento Capital (Categoria E):
-      <input type="text" name="rendimentoCatE" value=""></p>
-      Rendimento Predial (Categoria F):
-      <input type="text" name="rendimentoCatF" value=""></p>
-      Rendimento de Pensões (Categoria G):
-      <input type="text" name="rendimentoCatG" value=""></p>
-      Número de Dependentes com mais de 3 anos:
-      <input type="text" name="dependentesMais3Anos" value=""></p>
-      Número de Dependentes com menos de 3 anos:
-      <input type="text" name="dependentesMenos3Anos" value=""></p>
-      Número de Ascendentes a cargo:
-      <input type="text" name="ascendentes" value=""></p>
-      Estado Civil:</p>
-      Solteiro/Viúvo/Divorciado <input type="radio" name="estadoCivil" value="solteiro">
-      Casado/União de Facto <input type="radio" name="estadoCivil" value="casado"></p>
-      Despesas de Saúde:
-      <input type="text" name="despesasSaude" value=""></p>
-      Despesas de Educação:
-      <input type="text" name="despesasEducacao" value=""></p>
-      Despesas com IVA:
-      <input type="text" name="despesasIVA" value=""></p>
-      Despesas Gerais:
-      <input type="text" name="despesasGerais" value=""></p>
-
-      <input type="button" name="button" value="Click" onClick="init(this.form)">
+      <div class="situacaoPessoal">
+        <h2>Situação Pessoal</h2></p>
+        <label>Estado Civil:</label></p>
+        <select id="estadoCivil">
+          <option value="solteiro">Solteiro/Viúvo/Divorciado</option><!-- <input type="radio" name="estadoCivil" value="solteiro"> -->
+          <option value="casado">Casado/União de Facto</option> <!--<input type="radio" name="estadoCivil" value="casado"></p> -->
+        </select></p>
+        <label>Número de Dependentes com mais de 3 anos:</label>
+        <input type="number" name="dependentesMais3Anos" value=""></p>
+        <label>Número de Dependentes com menos de 3 anos:</label>
+        <input type="number" name="dependentesMenos3Anos" value=""></p>
+        <label>Número de Ascendentes a cargo:</label>
+        <input type="number" name="ascendentes" value=""></p>
+      </div>
+      <div class="rendimentos">
+        <h2>Rendimentos</h2></p>
+        <label>Rendimento de Trabalho Dependente (Categoria A):</label>
+        <input type="number" name="rendimentoCatA" value=""></p>
+        <div class="rendCatB">
+          <label>Rendimento de Trabalho Independente (Categoria B):</label>
+          <input id="rendimentoCatB" type="number" name="rendimentoCatB" value=""></p>
+          <div class="despesasCatB">
+            <label>Rendimento de Propriedade Intelectual?</label>
+            <input type="checkbox" name="propriedadeIntelectual" value="false"></p>
+          </div>
+        </div>
+        <label>Rendimento Capital (Categoria E):</label>
+        <input type="number" name="rendimentoCatE" value=""></p>
+        <div class="rendCatF">
+          <label>Rendimento Predial (Categoria F):</label>
+          <input id="rendimentoCatF" type="number" name="rendimentoCatF" value=""></p>
+          <div class="despesasCatF">
+            <label>Despesas com condomínios:</label>
+            <input type="number" name="despesasCondominios" value=""></p>
+            <label>Despesas com conservação e manutenção:</label>
+            <input type="number" name="despesasConservacao" value=""></p>
+            <label>Despesas com IMI:</label>
+            <input type="number" name="despesasIMI" value=""></p>
+          </div>
+        </div>
+        <label>Rendimento de Pensões (Categoria H):</label>
+        <input type="number" name="rendimentoCatG" value=""></p>
+      </div>
+      <div class="despesas">
+        <h2>Despesas</h2>
+        <label>Despesas de Saúde:</label>
+        <input type="number" name="despesasSaude" value=""></p>
+        <label>Despesas de Educação:</label>
+        <input type="number" name="despesasEducacao" value=""></p>
+        <label>Despesas com IVA:</label>
+        <input type="number" name="despesasIVA" value=""></p>
+        <label>Despesas Gerais:</label>
+        <input type="number" name="despesasGerais" value=""></p>
+      </div>
+      <input type="button" name="calcButton" value="Calcular" onClick="init(this.form)">
     </form>
   </div>
-  </body>
+</body>
+<footer>
+  <script src="./jquery.js" text="text/javascript"></script>
+  <script src="./calcirs.js" text="text/javascript"></script>
+</footer>
 </html>

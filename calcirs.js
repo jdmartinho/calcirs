@@ -1,43 +1,50 @@
 // Constantes
 // Limites superiores dos escaloes IRS
-const escalao1 = 7091;
-const escalao2 = 10700;
-const escalao3 = 20261;
-const escalao4 = 25000;
-const escalao5 = 36856;
-const escalao6 = 80640;
+const Escalao1 = 7091;
+const Escalao2 = 10700;
+const Escalao3 = 20261;
+const Escalao4 = 25000;
+const Escalao5 = 36856;
+const Escalao6 = 80640;
 // Percentagens dos escaloes IRS
-const escalao1Percent = 0.145;
-const escalao2Percent = 0.23;
-const escalao3Percent = 0.285;
-const escalao4Percent = 0.35;
-const escalao5Percent = 0.37;
-const escalao6Percent = 0.45;
-const escalao7Percent = 0.48;
+const Escalao1Percent = 0.145;
+const Escalao2Percent = 0.23;
+const Escalao3Percent = 0.285;
+const Escalao4Percent = 0.35;
+const Escalao5Percent = 0.37;
+const Escalao6Percent = 0.45;
+const Escalao7Percent = 0.48;
 // Maximo imposto pago em cada escalao
-const escalao1MaxImposto = 1028.2;
-const escalao2MaxImposto = 830.07;
-const escalao3MaxImposto = 2724.89;
-const escalao4MaxImposto = 1658.65;
-const escalao5MaxImposto = 4386.72;
-const escalao6MaxImposto = 19702.8;
+const Escalao1MaxImposto = 1028.2;
+const Escalao2MaxImposto = 830.07;
+const Escalao3MaxImposto = 2724.89;
+const Escalao4MaxImposto = 1658.65;
+const Escalao5MaxImposto = 4386.72;
+const Escalao6MaxImposto = 19702.8;
 // Outros impostos
-const impostoCapital = 0.28;
+const ImpostoCapital = 0.28;
 // Taxa Solidariedade
-const taxaSolidariedade1 = 0.025;
-const taxaSolidariedade2 = 0.05;
-const limiteSolidariedade1 = 80000;
-const limiteSolidariedade2 = 250000;
-const impostoMaximoSolidariedade1 = 4250;
+const TaxaSolidariedade1 = 0.025;
+const TaxaSolidariedade2 = 0.05;
+const LimiteSolidariedade1 = 80000;
+const LimiteSolidariedade2 = 250000;
+const ImpostoMaxSolidariedade1 = 4250;
 // Deducoes especificas
-const deducaoRendimentoDependente = 4104;
-const deducaoRendimentoIndependentePercent = 0.75;
-const deducaoDependente3Anos = 725;
-const deducaoDependente = 600;
-const deducaoAscendenteUnico = 635;
-const deducaoAscendenteMultiplos = 525;
+const DeducaoRendDependente = 4104;
+const DeducaoRendIndependentePercent = 0.75;
+const LimiteDeducaoRendPensoes = 22500;
+const DeducaoReduzidaRendPensoes = 0.8;
+const DeducaoDependenteMenos3Anos = 725;
+const DeducaoDependenteMais3Anos = 600;
+const DeducaoAscendenteUnico = 635;
+const DeducaoAscendentesMultiplos = 525;
 // Quocientes
-const quocienteDependente = 0.3;
+const QuocienteDependente = 0.3;
+// Outros Valores
+const rendMinimoMensalGarantido2010 = 475;
+const indexanteApoioSocial = 421.32;
+const minimoExistencia = indexanteApoioSocial * 1.5 * 14;
+const limiteRendPropIntelectual = 10000;
 
 // Deducoes a colecta
 var despesasSaude;
@@ -78,12 +85,16 @@ function init(form) {
   despesasEducacao = form.despesasEducacao.value;
   despesasIVA = form.despesasIVA.value;
   despesasGerais = form.despesasGerais.value;
-  if(estadoCivil == "solteiro"){
+  condominios = form.despesasCondominios.value;
+  obras = form.despesasConservacao.value;
+  impostoMunicipalImoveis = form.despesasIMI.value;
+  propriedadeIntelectual = form.propriedadeIntelectual.value;
+  if (estadoCivil == "solteiro") {
     numContribuintes = 1;
   } else {
     numContribuintes = 2;
   }
-  if(numContribuintes == 1 && (dependentes > 0 || dependentes3Anos > 0)){
+  if (numContribuintes == 1 && (dependentes > 0 || dependentes3Anos > 0)) {
     familiaMonoparental = true;
   } else {
     familiaMonoparental = false;
@@ -101,11 +112,12 @@ function init(form) {
   console.log(despesasEducacao)
   console.log(despesasIVA)
   console.log(despesasGerais)
+  console.log(propriedadeIntelectual);
 
   algoritmo();
 }
 
-function algoritmo(){
+function algoritmo() {
   // Calcular Deducoes Especificas
   //var dedEspecificas = calcDeducoesEspecificas();
   // Subtrair as deducoes especificas ao rendimento total para calcular o rendimento colectavel
@@ -144,60 +156,91 @@ function calcRendColectavel() {
     calcRendColectavelCatB(rendimentoIndependente) +
     calcRendColectavelCatE(rendimentoCapital) +
     calcRendColectavelCatF(rendimentoPredial) +
-    calcRendColectavelCatG(rendimentoPensoes);
+    calcRendColectavelCatH(rendimentoPensoes);
 }
 
-function calcRendColectavelCatA(rendimentoDependente){
-  if(rendimentoDependente <= deducaoRendimentoDependente) {
+function calcRendColectavelCatA(rendimentoDependente) {
+  if (rendimentoDependente <= DeducaoRendDependente) {
     return 0;
   } else {
-    return rendimentoDependente - deducaoRendimentoDependente;
+    return rendimentoDependente - DeducaoRendDependente;
   }
 }
 
 function calcRendColectavelCatB(rendimentoIndependente) {
-  if(rendimentoDependente <= 0) {
+  if (rendimentoIndependente <= 0) {
     return 0;
   } else {
-    return rendimentoIndependente * deducaoRendimentoIndependentePercent;
+    result = rendimentoIndependente;
+    if(propriedadeIntelectual){
+      var result = 0;
+      var parcelaRendimentoIsento = rendimentoIndependente * 0.5;
+      if(parcelaRendimentoIsento > limiteRendPropIntelectual){
+        parcelaRendimentoIsento = limiteRendPropIntelectual;
+      }
+      result = rendimentoIndependente - parcelaRendimentoIsento;
+    }
+    return result * DeducaoRendIndependentePercent;
   }
 }
 
 function calcRendColectavelCatE(rendimentoCapital) {
-  if(rendimentoCapital <= 0){
+  if (rendimentoCapital <= 0) {
     return 0;
   } else {
+    // TODO adicionar guarda para nao ser menor que 0
     return rendimentoCapital - perdasCapitais;
   }
 }
 
-function calcRendColectavelCatF(rendimentoPredial){
-  if(rendimentoPredial <= 0){
+function calcRendColectavelCatF(rendimentoPredial) {
+  if (rendimentoPredial <= 0) {
     return 0;
   } else {
-    return rendimentoPredial - condominios - obras - impostoMunicipalImoveis;
+    var result = rendimentoPredial - condominios - obras - impostoMunicipalImoveis;
+    if (result <= 0) {
+      return 0;
+    } else {
+      return result;
+    }
   }
 }
 
-function calcRendColectavelCatG(rendimentoPensoes){
-  if(rendimentoPensoes <= 0){
-    return 0;
+function calcRendColectavelCatH(rendimentoPensoes) {
+  var result;
+  if (rendimentoPensoes <= LimiteDeducaoRendPensoes) {
+    result = rendimentoPensoes - DeducaoRendDependente;
+    if (result <= 0) {
+      return 0;
+    } else {
+      return result;
+    }
   } else {
-    return rendimentoPensoes;
+    // Necessario abater 20% do valor superior ao limite da deducao
+    var parteAbater = DeducaoRendDependente - ((rendimentoPensoes - LimiteDeducaoRendPensoes) * 0.2);
+    if (parteAbater < 0) {
+      parteAbater = 0;
+    }
+    result = rendimentoPensoes - parteAbater;
+    if (result <= 0) {
+      return 0;
+    } else {
+      return result;
+    }
   }
 }
 
 // Taxa de Solidariedade
-function calcTaxaSolidariedadeDevida(rendimentoColectavel){
+function calcTaxaSolidariedadeDevida(rendimentoColectavel) {
   var result;
-  if(rendimentoColectavel > limiteSolidariedade1 && rendimentoColectavel <= limiteSolidariedade2){
+  if (rendimentoColectavel > LimiteSolidariedade1 && rendimentoColectavel <= LimiteSolidariedade2) {
     console.log("Taxa de Solidariedade 1")
-    result = rendimentoColectavel * taxaSolidariedade1
+    result = (rendimentoColectavel - LimiteSolidariedade1) * TaxaSolidariedade1
     console.log(result);
     return result;
-  } else if(rendimentoColectavel > limiteSolidariedade2){
+  } else if (rendimentoColectavel > LimiteSolidariedade2) {
     console.log("Taxa de Solidariedade 2");
-    result = ((rendimentoColectavel - limiteSolidariedade2) * taxaSolidariedade2) + impostoMaximoSolidariedade1;
+    result = ((rendimentoColectavel - LimiteSolidariedade2) * TaxaSolidariedade2) + ImpostoMaxSolidariedade1;
     console.log(result);
     return result;
   } else {
@@ -206,73 +249,73 @@ function calcTaxaSolidariedadeDevida(rendimentoColectavel){
 }
 
 // Quociente Familiar
-function calcQuocienteFamiliar(){
-  return numContribuintes + (dependentes3Anos + dependentes + ascendentes) * quocienteDependente
+function calcQuocienteFamiliar() {
+  return numContribuintes + (dependentes3Anos + dependentes + ascendentes) * QuocienteDependente
 }
 
 // Calculo imposto
 function calcImposto(rendimentoColectavel) {
   var result;
-  if(rendimentoColectavel <= 0){
+  if (rendimentoColectavel <= 0) {
     console.log("Nao paga imposto");
     return 0
   }
-  if(rendimentoColectavel <= escalao1) {
+  if (rendimentoColectavel <= Escalao1) {
     console.log("escalao1");
-    result = (rendimentoColectavel * escalao1Percent);
+    result = (rendimentoColectavel * Escalao1Percent);
     console.log(result);
     return result;
-  } else if(rendimentoColectavel > escalao1 && rendimentoColectavel <= escalao2) {
+  } else if (rendimentoColectavel > Escalao1 && rendimentoColectavel <= Escalao2) {
     console.log("escalao2");
-    result = (((rendimentoColectavel - escalao1) * escalao2Percent) + escalao1MaxImposto);
+    result = (((rendimentoColectavel - Escalao1) * Escalao2Percent) + Escalao1MaxImposto);
     console.log(result);
     return result;
-  } else if(rendimentoColectavel > escalao2 && rendimentoColectavel <= escalao3) {
+  } else if (rendimentoColectavel > Escalao2 && rendimentoColectavel <= Escalao3) {
     console.log("escalao3");
-    result = (((rendimentoColectavel - escalao2) * escalao3Percent) + escalao1MaxImposto + escalao2MaxImposto);
+    result = (((rendimentoColectavel - Escalao2) * Escalao3Percent) + Escalao1MaxImposto + Escalao2MaxImposto);
     return result;
-  } else if(rendimentoColectavel > escalao3 && rendimentoColectavel <= escalao4) {
+  } else if (rendimentoColectavel > Escalao3 && rendimentoColectavel <= Escalao4) {
     console.log("escalao4");
-    result = (((rendimentoColectavel - escalao3) * escalao4Percent) + escalao1MaxImposto + escalao2MaxImposto + escalao3MaxImposto);
+    result = (((rendimentoColectavel - Escalao3) * Escalao4Percent) + Escalao1MaxImposto + Escalao2MaxImposto + Escalao3MaxImposto);
     return result;
-  } else if(rendimentoColectavel > escalao4 && rendimentoColectavel <= escalao5) {
+  } else if (rendimentoColectavel > Escalao4 && rendimentoColectavel <= Escalao5) {
     console.log("escalao5");
-    result = (((rendimentoColectavel - escalao4) * escalao5Percent) + escalao1MaxImposto + escalao2MaxImposto + escalao3MaxImposto + escalao4MaxImposto);
+    result = (((rendimentoColectavel - Escalao4) * Escalao5Percent) + Escalao1MaxImposto + Escalao2MaxImposto + Escalao3MaxImposto + Escalao4MaxImposto);
     return result;
-  } else if(rendimentoColectavel > escalao5 && rendimentoColectavel <= escalao6) {
+  } else if (rendimentoColectavel > Escalao5 && rendimentoColectavel <= Escalao6) {
     console.log("escalao6");
-    result = (((rendimentoColectavel - escalao5) * escalao6Percent) + escalao1MaxImposto + escalao2MaxImposto + escalao3MaxImposto + escalao4MaxImposto + escalao5MaxImposto);
+    result = (((rendimentoColectavel - Escalao5) * Escalao6Percent) + Escalao1MaxImposto + Escalao2MaxImposto + Escalao3MaxImposto + Escalao4MaxImposto + Escalao5MaxImposto);
     return result;
-  } else if(rendimentoColectavel > escalao6) {
+  } else if (rendimentoColectavel > Escalao6) {
     console.log("escalao7");
-    result = (((rendimentoColectavel - escalao6) * escalao7Percent) + escalao1MaxImposto + escalao2MaxImposto + escalao3MaxImposto + escalao4MaxImposto + escalao5MaxImposto + escalao6MaxImposto);
+    result = (((rendimentoColectavel - Escalao6) * Escalao7Percent) + Escalao1MaxImposto + Escalao2MaxImposto + Escalao3MaxImposto + Escalao4MaxImposto + Escalao5MaxImposto + Escalao6MaxImposto);
     return result;
   }
 }
 
 // Deducoes Colecta
-function calcDeducoesTotal(){
+function calcDeducoesTotal() {
   return calcDespesasSaude(despesasSaude) + calcDespesasEducacao(despesasEducacao) +
     calcDespesasGerais(despesasGerais) + calcDespesasIVA(despesasIVA) +
     calcDeducoesDependentes() + calcDeducoesAscendentes();
 }
 
-function calcDespesasSaude(despesasSaude){
+function calcDespesasSaude(despesasSaude) {
   var taxaSaude = 0.15;
   var limiteSaude = 1000;
   var result = despesasSaude * taxaSaude;
-  if(result < limiteSaude) {
+  if (result < limiteSaude) {
     return result;
   } else {
     return limiteSaude;
   }
 }
 
-function calcDespesasEducacao(despesasEducacao){
+function calcDespesasEducacao(despesasEducacao) {
   var taxaEducacao = 0.30;
   var limiteEducacao = 800;
   var result = despesasEducacao * taxaEducacao;
-  if(result < limiteEducacao) {
+  if (result < limiteEducacao) {
     return result;
   } else {
     return limiteEducacao;
@@ -285,16 +328,16 @@ function calcDespesasGerais(despesasGerais) {
   var limiteGeral = 250;
   var limiteGeralMonoparental = 335;
   var result;
-  if(familiaMonoparental){
+  if (familiaMonoparental) {
     result = despesasGerais * taxaGeralMonoparental;
-    if(result < limiteGeralMonoparental){
+    if (result < limiteGeralMonoparental) {
       return result;
     } else {
       return limiteGeralMonoparental;
     }
   } else {
     result = despesasGerais * taxaGeral;
-    if(result < limiteGeral){
+    if (result < limiteGeral) {
       return result;
     } else {
       return limiteGeral;
@@ -306,28 +349,40 @@ function calcDespesasIVA(despesasIVA) {
   var taxaIVA = 0.15;
   var limiteIVA = 250;
   var result = despesasIVA * taxaIVA;
-  if(result < limiteIVA){
+  if (result < limiteIVA) {
     return result;
   } else {
     return limiteIVA;
   }
 }
 
-function calcDeducoesDependentes(){
-  var deducaoTotalDependente3Anos = dependentes3Anos * deducaoDependente3Anos;
-  var deducaoTotalDependentes = dependentes * deducaoDependente;
+function calcDeducoesDependentes() {
+  var deducaoTotalDependente3Anos = dependentes3Anos * DeducaoDependenteMenos3Anos;
+  var deducaoTotalDependentes = dependentes * DeducaoDependenteMais3Anos;
   return deducaoTotalDependente3Anos + deducaoTotalDependentes;
 }
 
-function calcDeducoesAscendentes(){
-  if(ascendentes > 1){
-    return deducaoAscendenteMultiplos * ascendentes;
+function calcDeducoesAscendentes() {
+  if (ascendentes > 1) {
+    return DeducaoAscendentesMultiplos * ascendentes;
   } else {
-    return deducaoAscendenteUnico * ascendentes;
+    return DeducaoAscendenteUnico * ascendentes;
   }
 }
 
 // Colecta Liquida
-function calcColectaLiquida(impostoApurado, despesas){
+function calcColectaLiquida(impostoApurado, despesas) {
   return impostoApurado - despesas;
 }
+
+// Muda a visibilidade das despesas para Rendimentos Independentes
+$("#rendimentoCatB").change(function() {
+  var notSelected = $("#rendimentoCatB").val() <= 0;
+  $(".despesasCatB").toggle(!notSelected);
+});
+
+// Muda a visibilidade das despesas para Rendimentos Prediais
+$("#rendimentoCatF").change(function() {
+  var notSelected = $("#rendimentoCatF").val() <= 0;
+  $(".despesasCatF").toggle(!notSelected);
+});
