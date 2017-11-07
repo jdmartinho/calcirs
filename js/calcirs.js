@@ -172,10 +172,10 @@ function calcRendColectavelCatB(rendimentoIndependente) {
     return 0;
   } else {
     result = rendimentoIndependente;
-    if(propriedadeIntelectual){
+    if (propriedadeIntelectual) {
       var result = 0;
       var parcelaRendimentoIsento = rendimentoIndependente * 0.5;
-      if(parcelaRendimentoIsento > limiteRendPropIntelectual){
+      if (parcelaRendimentoIsento > limiteRendPropIntelectual) {
         parcelaRendimentoIsento = limiteRendPropIntelectual;
       }
       result = rendimentoIndependente - parcelaRendimentoIsento;

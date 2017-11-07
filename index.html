@@ -3,73 +3,173 @@
 
 <head>
   <meta charset="utf-8">
-  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/style.css">
   <title>Calc IRS</title>
 </head>
 
 <body>
-  <div>
-    <form name="myform" action="" method="get">
+  <div id="leftContent" class="col-sm-1">
+  </div>
+  <div id="mainContent" class="col-sm-10">
+    <form name="myform" class="form-horizontal" action="" method="get">
       <div class="situacaoPessoal">
-        <h2>Situação Pessoal</h2></p>
-        <label>Estado Civil:</label></p>
-        <select id="estadoCivil">
-          <option value="solteiro">Solteiro/Viúvo/Divorciado</option><!-- <input type="radio" name="estadoCivil" value="solteiro"> -->
-          <option value="casado">Casado/União de Facto</option> <!--<input type="radio" name="estadoCivil" value="casado"></p> -->
-        </select></p>
-        <label>Número de Dependentes com mais de 3 anos:</label>
-        <input type="number" name="dependentesMais3Anos" value=""></p>
-        <label>Número de Dependentes com menos de 3 anos:</label>
-        <input type="number" name="dependentesMenos3Anos" value=""></p>
-        <label>Número de Ascendentes a cargo:</label>
-        <input type="number" name="ascendentes" value=""></p>
+        <fieldset>
+          <legend>
+            <h2>Situação Pessoal</h2>
+          </legend>
+          <div class="form-group">
+            <label for="estadoCivil" class="col-sm-2 control-label">
+              Estado Civil:
+            </label>
+            <div class="col-sm-2">
+              <select id="estadoCivil" class="form-control">
+                <option value="solteiro">Solteiro/Viúvo/Divorciado</option>
+                <option value="casado">Casado/União de Facto</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="dependentesMais3Anos" class="col-sm-2 control-label">
+              Nº de Dependentes com mais de 3 anos:
+            </label>
+            <div class="col-sm-1">
+              <input type="number" name="dependentesMais3Anos" value="" class="form-control">
+            </div>
+            <label for="dependentesMenos3Anos" class="col-sm-2 control-label">
+              Nº de Dependentes com menos de 3 anos:
+            </label>
+            <div class="col-sm-1">
+              <input type="number" name="dependentesMenos3Anos" value="" class="form-control">
+            </div>
+            <label class="col-sm-2 control-label">
+              Nº de Ascendentes a cargo:
+            </label>
+            <div class="col-sm-1">
+              <input type="number" name="ascendentes" value="" class="form-control">
+            </div>
+          </div>
+        </fieldset>
       </div>
       <div class="rendimentos">
-        <h2>Rendimentos</h2></p>
-        <label>Rendimento de Trabalho Dependente (Categoria A):</label>
-        <input type="number" name="rendimentoCatA" value=""></p>
-        <div class="rendCatB">
-          <label>Rendimento de Trabalho Independente (Categoria B):</label>
-          <input id="rendimentoCatB" type="number" name="rendimentoCatB" value=""></p>
-          <div class="despesasCatB">
-            <label>Rendimento de Propriedade Intelectual?</label>
-            <input type="checkbox" name="propriedadeIntelectual" value="false"></p>
+        <fieldset>
+          <legend>
+            <h2>Rendimentos</h2>
+          </legend>
+          <div class="form-group">
+            <label for="rendimentoCatA" class="col-sm-2 control-label">
+              Rendimento de Trabalho Dependente (Categoria A):
+            </label>
+            <div class="col-sm-1">
+              <input type="number" name="rendimentoCatA" value="" class="form-control">
+            </div>
           </div>
-        </div>
-        <label>Rendimento Capital (Categoria E):</label>
-        <input type="number" name="rendimentoCatE" value=""></p>
-        <div class="rendCatF">
-          <label>Rendimento Predial (Categoria F):</label>
-          <input id="rendimentoCatF" type="number" name="rendimentoCatF" value=""></p>
-          <div class="despesasCatF">
-            <label>Despesas com condomínios:</label>
-            <input type="number" name="despesasCondominios" value=""></p>
-            <label>Despesas com conservação e manutenção:</label>
-            <input type="number" name="despesasConservacao" value=""></p>
-            <label>Despesas com IMI:</label>
-            <input type="number" name="despesasIMI" value=""></p>
+          <div class="rendCatB form-group">
+            <label for="rendimentoCatB" class="col-sm-2 control-label">
+              Rendimento de Trabalho Independente (Categoria B):
+            </label>
+            <div class="col-sm-1">
+              <input id="rendimentoCatB" type="number" name="rendimentoCatB" value="" class="form-control">
+            </div>
+            <div class="despesasCatB">
+              <div class="col-sm-offset-2">
+                <label for="propriedadeIntelectual" class="col-sm-2 control-label">
+                  Rendimento de Propriedade Intelectual?
+                </label>
+                <div class="col-sm-1">
+                  <input type="checkbox" name="propriedadeIntelectual" value="false">
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-        <label>Rendimento de Pensões (Categoria H):</label>
-        <input type="number" name="rendimentoCatG" value=""></p>
+          <div class="form-group">
+            <label for="rendimentoCatE" class="col-sm-2 control-label">
+              Rendimento Capital (Categoria E):
+            </label>
+            <div class="col-sm-1">
+              <input type="number" name="rendimentoCatE" value="" class="form-control">
+            </div>
+          </div>
+          <div class="rendCatF">
+            <div class="form-group">
+              <label for="rendimentoCatF" class="col-sm-2 control-label">
+                Rendimento Predial (Categoria F):
+              </label>
+              <div class="col-sm-1">
+                <input id="rendimentoCatF" type="number" name="rendimentoCatF" value="" class="form-control">
+              </div>
+            </div>
+            <div class="despesasCatF form-group">
+              <label for="despesasCondominios" class="col-sm-2 control-label">
+                Despesas com condomínios:
+              </label>
+              <div class="col-sm-1">
+                <input type="number" name="despesasCondominios" value="" class="form-control">
+              </div>
+              <label for="despesasConservacao" class="col-sm-2 control-label">
+                Despesas com conservação e manutenção:
+              </label>
+              <div class="col-sm-1">
+                <input type="number" name="despesasConservacao" value="" class="form-control">
+              </div>
+              <label for="despesasIMI" class="col-sm-2 control-label">
+                Despesas com IMI:
+              </label>
+              <div class="col-sm-1">
+                <input type="number" name="despesasIMI" value="" class="form-control">
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="rendimentoCatG" class="col-sm-2 control-label">
+              Rendimento de Pensões (Categoria H):
+            </label>
+            <div class="col-sm-1">
+              <input type="number" name="rendimentoCatG" value="" class="form-control">
+            </div>
+          </div>
+        </fieldset>
       </div>
-      <div class="despesas">
-        <h2>Despesas</h2>
-        <label>Despesas de Saúde:</label>
-        <input type="number" name="despesasSaude" value=""></p>
-        <label>Despesas de Educação:</label>
-        <input type="number" name="despesasEducacao" value=""></p>
-        <label>Despesas com IVA:</label>
-        <input type="number" name="despesasIVA" value=""></p>
-        <label>Despesas Gerais:</label>
-        <input type="number" name="despesasGerais" value=""></p>
+      <div class="despesas form-group">
+        <fieldset>
+          <legend>
+            <h2>Despesas</h2>
+          </legend>
+          <label for="despesasSaude" class="col-sm-2 control-label">
+            Despesas de Saúde:
+          </label>
+          <div class="col-sm-1">
+            <input type="number" name="despesasSaude" value="" class="form-control">
+          </div>
+          <label class="col-sm-2 control-label">
+            Despesas de Educação:
+          </label>
+          <div class="col-sm-1">
+            <input type="number" name="despesasEducacao" value="" class="form-control">
+          </div>
+          <label class="col-sm-2 control-label">
+            Despesas com IVA:
+          </label>
+          <div class="col-sm-1">
+            <input type="number" name="despesasIVA" value="" class="form-control">
+          </div>
+          <label class="col-sm-2 control-label">
+            Despesas Gerais:
+          </label>
+          <div class="col-sm-1">
+            <input type="number" name="despesasGerais" value="" class="form-control">
+          </div>
+        </fieldset>
       </div>
-      <input type="button" name="calcButton" value="Calcular" onClick="init(this.form)">
+      <input type="button" class="btn btn-primary" name="calcButton" value="Calcular" onClick="init(this.form)">
     </form>
+  </div>
+  <div id="rightContent" class="col-sm-1">
   </div>
 </body>
 <footer>
-  <script src="./jquery.js" text="text/javascript"></script>
-  <script src="./calcirs.js" text="text/javascript"></script>
+  <script src="js/jquery.js" text="text/javascript"></script>
+  <script src="js/calcirs.js" text="text/javascript"></script>
 </footer>
+
 </html>
