@@ -46,6 +46,9 @@ const indexanteApoioSocial = 421.32;
 const minimoExistencia = indexanteApoioSocial * 1.5 * 14;
 const limiteRendPropIntelectual = 10000;
 
+// Ano dos Rendimentos
+var anoRendimentos;
+
 // Deducoes a colecta
 var despesasSaude;
 var despesasEducacao;
@@ -70,13 +73,15 @@ var condominios;
 var obras;
 var impostoMunicipalImoveis;
 
-function init(form) {
+function init() {
+  var form = document.getElementById('taxForm');
   console.log("init");
-  rendimentoDependente = form.rendimentoCatA.value;
-  rendimentoIndependente = form.rendimentoCatB.value;
-  rendimentoCapital = form.rendimentoCatE.value;
-  rendimentoPredial = form.rendimentoCatF.value;
-  rendimentoPensoes = form.rendimentoCatG.value;
+  anoRendimentos = form.anoRendimentos.value;
+  rendimentoDependente = form.rendimentoCatA.value || 0;
+  rendimentoIndependente = form.rendimentoCatB.value || 0;
+  rendimentoCapital = form.rendimentoCatE.value || 0;
+  rendimentoPredial = form.rendimentoCatF.value || 0;
+  rendimentoPensoes = form.rendimentoCatG.value || 0;
   dependentes = form.dependentesMais3Anos.value;
   dependentes3Anos = form.dependentesMenos3Anos.value;
   ascendentes = form.ascendentes.value;
@@ -88,7 +93,7 @@ function init(form) {
   condominios = form.despesasCondominios.value;
   obras = form.despesasConservacao.value;
   impostoMunicipalImoveis = form.despesasIMI.value;
-  propriedadeIntelectual = form.propriedadeIntelectual.value;
+  propriedadeIntelectual = form.propriedadeIntelectual.checked;
   if (estadoCivil == "solteiro") {
     numContribuintes = 1;
   } else {
@@ -118,6 +123,9 @@ function init(form) {
 }
 
 function algoritmo() {
+  var rendimentoTotal = parseFloat(rendimentoDependente) + parseFloat(rendimentoIndependente) +
+    parseFloat(rendimentoCapital) + parseFloat(rendimentoPredial) + parseFloat(rendimentoPensoes);
+  console.log("Rendimento Total: " + rendimentoTotal);
   // Calcular Deducoes Especificas
   //var dedEspecificas = calcDeducoesEspecificas();
   // Subtrair as deducoes especificas ao rendimento total para calcular o rendimento colectavel
@@ -133,7 +141,12 @@ function algoritmo() {
   var rendColectCorrigido = rendColect / quocienteFamiliar;
   console.log("Rendimento Colectavel Corrigido: " + rendColectCorrigido);
   // Calcular o imposto devido do rendimento colectavel corrigido
-  var impostoApurado = calcImposto(rendColectCorrigido);
+  var impostoApurado;
+  if (anoRendimentos == 2017) {
+    impostoApurado = calcImposto17(rendColectCorrigido);
+  } else {
+    impostoApurado = calcImposto(rendColectCorrigido);
+  }
   console.log("Imposto Apurado: " + impostoApurado);
   // Multiplicar o imposto pelo quociente familiar para apurar a colecta total
   var colectaTotal = impostoApurado * quocienteFamiliar;
@@ -147,7 +160,15 @@ function algoritmo() {
   // Subtrair deducoes a colecta da colecta total para calcular o imposto devido
   var impostoFinal = calcColectaLiquida(colectaApuradaTotal, deducoesColecta);
   console.log("Imposto Final: " + impostoFinal);
-  return impostoFinal
+  if (impostoFinal < 0) {
+    impostoFinal = 0;
+  }
+
+  // Resultados
+  $("#impostoAPagar").val(impostoFinal.formatMoney(2) + " €");
+  $("#taxaEfectiva").val(((impostoFinal / rendimentoTotal) * 100).toFixed(2) + " %");
+  $("#totalLiquido").val((rendimentoTotal - impostoFinal).formatMoney(2) + " €");
+  return impostoFinal;
 }
 
 // Deducoes Especificas
@@ -163,7 +184,7 @@ function calcRendColectavelCatA(rendimentoDependente) {
   if (rendimentoDependente <= DeducaoRendDependente) {
     return 0;
   } else {
-    return rendimentoDependente - DeducaoRendDependente;
+    return parseFloat(rendimentoDependente) - DeducaoRendDependente;
   }
 }
 
@@ -171,25 +192,30 @@ function calcRendColectavelCatB(rendimentoIndependente) {
   if (rendimentoIndependente <= 0) {
     return 0;
   } else {
-    result = rendimentoIndependente;
+    result = parseFloat(rendimentoIndependente);
     if (propriedadeIntelectual) {
       var result = 0;
       var parcelaRendimentoIsento = rendimentoIndependente * 0.5;
       if (parcelaRendimentoIsento > limiteRendPropIntelectual) {
         parcelaRendimentoIsento = limiteRendPropIntelectual;
       }
-      result = rendimentoIndependente - parcelaRendimentoIsento;
+      result = parseFloat(rendimentoIndependente) - parcelaRendimentoIsento;
     }
     return result * DeducaoRendIndependentePercent;
   }
 }
 
 function calcRendColectavelCatE(rendimentoCapital) {
+  perdasCapitais = 0
   if (rendimentoCapital <= 0) {
     return 0;
   } else {
-    // TODO adicionar guarda para nao ser menor que 0
-    return rendimentoCapital - perdasCapitais;
+    var result = parseFloat(rendimentoCapital) - parseFloat(perdasCapitais);
+    if(result < 0){
+      return 0;
+    } else {
+      return result;
+    }
   }
 }
 

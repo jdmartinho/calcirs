@@ -3,7 +3,8 @@
 
 <head>
   <meta charset="utf-8">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="shortcut icon" type="image/png" href="favicon.ico" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link rel="stylesheet" href="css/style.css">
   <title>Calc IRS</title>
 </head>
@@ -12,11 +13,11 @@
   <div id="leftContent" class="col-sm-1">
   </div>
   <div id="mainContent" class="col-sm-10">
-    <form name="myform" class="form-horizontal" action="" method="get">
+    <form id="taxForm" name="myform" class="form-horizontal" action="" method="get">
       <div class="situacaoPessoal">
         <fieldset>
           <legend>
-            <h2>Situação Pessoal</h2>
+            <h3>Situação Pessoal</h3>
           </legend>
           <div class="form-group">
             <label for="estadoCivil" class="col-sm-2 control-label">
@@ -27,6 +28,9 @@
                 <option value="solteiro">Solteiro/Viúvo/Divorciado</option>
                 <option value="casado">Casado/União de Facto</option>
               </select>
+            </div>
+            <div class="col-sm-1">
+              <a href="#" title="Se escolher Casado/União de Facto assume-se que a declaração é conjunta e o rendimento é do casal"><img src="res/blue_question_mark.png" height="16px"/></a>
             </div>
           </div>
           <div class="form-group">
@@ -54,13 +58,24 @@
       <div class="rendimentos">
         <fieldset>
           <legend>
-            <h2>Rendimentos</h2>
+            <h3>Rendimentos</h3>
           </legend>
+          <div class="form-group">
+            <label for="anoRendimentos" class="col-sm-2 control-label">
+              Ano dos Rendimentos:
+            </label>
+            <div class="col-sm-2">
+              <select id="anoRendimentos" class="form-control">
+                <option value="2017">2017</option>
+                <option value="2018">2018</option>
+              </select>
+            </div>
+          </div>
           <div class="form-group">
             <label for="rendimentoCatA" class="col-sm-2 control-label">
               Rendimento de Trabalho Dependente (Categoria A):
             </label>
-            <div class="col-sm-1">
+            <div class="col-sm-2">
               <input type="number" name="rendimentoCatA" value="" class="form-control">
             </div>
           </div>
@@ -68,7 +83,7 @@
             <label for="rendimentoCatB" class="col-sm-2 control-label">
               Rendimento de Trabalho Independente (Categoria B):
             </label>
-            <div class="col-sm-1">
+            <div class="col-sm-2">
               <input id="rendimentoCatB" type="number" name="rendimentoCatB" value="" class="form-control">
             </div>
             <div class="despesasCatB">
@@ -77,7 +92,7 @@
                   Rendimento de Propriedade Intelectual?
                 </label>
                 <div class="col-sm-1">
-                  <input type="checkbox" name="propriedadeIntelectual" value="false">
+                  <input id="propriedadeIntelectual" type="checkbox" name="propriedadeIntelectual" value="">
                 </div>
               </div>
             </div>
@@ -86,7 +101,7 @@
             <label for="rendimentoCatE" class="col-sm-2 control-label">
               Rendimento Capital (Categoria E):
             </label>
-            <div class="col-sm-1">
+            <div class="col-sm-2">
               <input type="number" name="rendimentoCatE" value="" class="form-control">
             </div>
           </div>
@@ -95,7 +110,7 @@
               <label for="rendimentoCatF" class="col-sm-2 control-label">
                 Rendimento Predial (Categoria F):
               </label>
-              <div class="col-sm-1">
+              <div class="col-sm-2">
                 <input id="rendimentoCatF" type="number" name="rendimentoCatF" value="" class="form-control">
               </div>
             </div>
@@ -103,19 +118,19 @@
               <label for="despesasCondominios" class="col-sm-2 control-label">
                 Despesas com condomínios:
               </label>
-              <div class="col-sm-1">
+              <div class="col-sm-2">
                 <input type="number" name="despesasCondominios" value="" class="form-control">
               </div>
               <label for="despesasConservacao" class="col-sm-2 control-label">
                 Despesas com conservação e manutenção:
               </label>
-              <div class="col-sm-1">
+              <div class="col-sm-2">
                 <input type="number" name="despesasConservacao" value="" class="form-control">
               </div>
               <label for="despesasIMI" class="col-sm-2 control-label">
                 Despesas com IMI:
               </label>
-              <div class="col-sm-1">
+              <div class="col-sm-2">
                 <input type="number" name="despesasIMI" value="" class="form-control">
               </div>
             </div>
@@ -124,7 +139,7 @@
             <label for="rendimentoCatG" class="col-sm-2 control-label">
               Rendimento de Pensões (Categoria H):
             </label>
-            <div class="col-sm-1">
+            <div class="col-sm-2">
               <input type="number" name="rendimentoCatG" value="" class="form-control">
             </div>
           </div>
@@ -133,7 +148,7 @@
       <div class="despesas form-group">
         <fieldset>
           <legend>
-            <h2>Despesas</h2>
+            <h3>Despesas</h3>
           </legend>
           <label for="despesasSaude" class="col-sm-2 control-label">
             Despesas de Saúde:
@@ -141,19 +156,19 @@
           <div class="col-sm-1">
             <input type="number" name="despesasSaude" value="" class="form-control">
           </div>
-          <label class="col-sm-2 control-label">
+          <label for="despesasEducacao" class="col-sm-2 control-label">
             Despesas de Educação:
           </label>
           <div class="col-sm-1">
             <input type="number" name="despesasEducacao" value="" class="form-control">
           </div>
-          <label class="col-sm-2 control-label">
+          <label for="despesasIVA" class="col-sm-2 control-label">
             Despesas com IVA:
           </label>
           <div class="col-sm-1">
             <input type="number" name="despesasIVA" value="" class="form-control">
           </div>
-          <label class="col-sm-2 control-label">
+          <label for="despesasGerais" class="col-sm-2 control-label">
             Despesas Gerais:
           </label>
           <div class="col-sm-1">
@@ -161,15 +176,60 @@
           </div>
         </fieldset>
       </div>
-      <input type="button" class="btn btn-primary" name="calcButton" value="Calcular" onClick="init(this.form)">
+      <div class="form-group">
+        </p>
+        <input type="button" class="btn btn-primary" name="calcButton" value="Calcular" onClick="init()">
+        </p>
+      </div>
     </form>
+    <div id="resultados">
+      <fieldset>
+        <legend>
+          <h3>Resultados</h3>
+        </legend>
+        <label for="impostoAPagar" class="col-sm-2 control-label">
+        Imposto a pagar:
+      </label>
+        <div class="col-sm-2">
+          <output id="impostoAPagar" name="impostoAPagar" form="taxForm">
+      </div>
+      <label for="taxaEfectiva" class="col-sm-2 control-label">
+        Taxa Efectiva de Imposto:
+      </label>
+      <div class="col-sm-2">
+        <output id="taxaEfectiva" name="taxaEfectiva" form="taxForm">
+      </div>
+      <label for="totalLiquido" class="col-sm-2 control-label">
+        Total Líquido:
+      </label>
+      <div class="col-sm-2">
+        <output id="totalLiquido" name="totalLiquido" form="taxForm">
+      </div>
+    </fieldset>
+    </div>
   </div>
   <div id="rightContent" class="col-sm-1">
   </div>
 </body>
 <footer>
+  <div class="container-fluid">
+    <div class="row">
+      <hr class="col-sm-12">
+      <ul class="nav nav-pills nav-justified">
+        <li>
+          <a href="http://info.portaldasfinancas.gov.pt/pt/informacao_fiscal/codigos_tributarios/cirs_rep/index_irs.htm">Código do IRS</a>
+        </li>
+        <li>
+          <a href="http://info.portaldasfinancas.gov.pt/pt/informacao_fiscal/codigos_tributarios/bf_rep/index_ebf.htm">Estatuto dos Benefícios Fiscais</a>
+        </li>
+      </ul>
+    </div>
+  </div>
   <script src="js/jquery.js" text="text/javascript"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="js/util.js" text="text/javascript"></script>
   <script src="js/calcirs.js" text="text/javascript"></script>
+  <script src="js/calcirs17.js" tabindex="text/javascript"></script>
 </footer>
 
 </html>
