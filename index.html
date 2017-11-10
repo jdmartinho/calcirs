@@ -5,11 +5,24 @@
   <meta charset="utf-8">
   <link rel="shortcut icon" type="image/png" href="favicon.ico" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="css/style.css">
   <title>Calc IRS</title>
 </head>
 
 <body>
+  <div id="fb-root"></div>
+  <script>
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s);
+      js.id = id;
+      js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.11';
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  </script>
+
   <div id="leftContent" class="col-sm-1">
   </div>
   <div id="mainContent" class="col-sm-10">
@@ -215,6 +228,17 @@
   <div class="container-fluid">
     <div class="row">
       <hr class="col-sm-12">
+      <div class="social">
+      <a href="#" id="share-fb" class="sharer button col-sm-offset-2"><i class="fa fa-3x fa-facebook"></i></a>
+      <a href="#" id="share-tw" class="sharer button"><i class="fa fa-3x fa-twitter"></i></a>
+      <a href="#" id="share-wa" class="sharer button"><i class="fa fa-3x fa-whatsapp"></i></a>
+      <a href="#" id="share-li" class="sharer button"><i class="fa fa-3x fa-linkedin"></i></a>
+      <a href="#" id="share-gp" class="sharer button"><i class="fa fa-3x fa-google-plus"></i></a>
+      <a href="#" id="share-em" class="sharer button"><i class="fa fa-3x fa-envelope"></i></a>
+      </div>
+    </div>
+    <div class="row">
+      <hr class="col-sm-12">
       <ul class="nav nav-pills nav-justified">
         <li>
           <a href="http://info.portaldasfinancas.gov.pt/pt/informacao_fiscal/codigos_tributarios/cirs_rep/index_irs.htm">Código do IRS</a>
@@ -227,6 +251,7 @@
   </div>
   <script src="js/jquery.js" text="text/javascript"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/sharer.js/latest/sharer.min.js"></script>
   <script src="js/util.js" text="text/javascript"></script>
   <script src="js/calcirs.js" text="text/javascript"></script>
   <script src="js/calcirs17.js" tabindex="text/javascript"></script>
