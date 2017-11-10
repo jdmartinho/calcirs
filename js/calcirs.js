@@ -274,9 +274,9 @@ function calcTaxaSolidariedadeDevida(rendimentoColectavel) {
   }
 }
 
-// Quociente Familiar
+// So contam os conjugues desde 2016 e chama-se agora Quociente Conjugal
 function calcQuocienteFamiliar() {
-  return numContribuintes + (dependentes3Anos + dependentes + ascendentes) * QuocienteDependente
+  return numContribuintes
 }
 
 // Calculo imposto

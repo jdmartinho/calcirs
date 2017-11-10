@@ -17,9 +17,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   // Uses sharer.js
   // https://ellisonleao.github.io/sharer.js/#twitter
   var url = "http://calcirs.pt";
-  var subject = "CalcIRS - Calcule o seu IRS online";
-  console.log(url);
-  console.log(title);
+  var subject = "CalcIRS - Calcule o seu IRS online";  
 
   // Facebook
   $('#share-fb').attr('data-url', url).attr('data-sharer', 'facebook');
@@ -30,9 +28,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
   // Linkedin
   $('#share-li').attr('data-url', url).attr('data-sharer', 'linkedin');
   // Google plus
-  $('#share-gp').attr('data-url', url).attr('data-title', title).attr('data-sharer', 'googleplus');
+  $('#share-gp').attr('data-url', url).attr('data-title', subject).attr('data-sharer', 'googleplus');
   // Email
-  $('#share-em').attr('data-url', url).attr('data-title', title).attr('data-subject', subject).attr('data-sharer', 'email');
+  $('#share-em').attr('data-url', url).attr('data-title', subject).attr('data-subject', subject).attr('data-sharer', 'email');
 
   // Prevent basic click behavior
   $(".sharer button").click(function() {
