@@ -1,9 +1,14 @@
 body {
-  padding: 30px;
+
 }
 
-.despesasCatB, .despesasCatF {
-  display: none;
+footer {
+  padding-bottom: 70px;
+  background-color: #3f5893;
+}
+
+fieldset {
+  padding-bottom: 30px;
 }
 
 input[type="number"]::-webkit-outer-spin-button,
@@ -15,6 +20,52 @@ input[type="number"] {
     -moz-appearance: textfield;
 }
 
+.despesasCatB, .despesasCatF {
+  display: none;
+}
+
+.jumbotron {
+  background-color: #3f5893;
+}
+
+.jumbotron > h1 {
+  color: #ffffff;
+  font-weight: bolder;
+  text-align: center;
+  text-shadow:5px 5px 0 rgba(100,100,100,0.9)
+}
+
 .social a {
   padding: 0 .5em;
+  color: #ffffff;
+}
+
+.nav a {
+  color: #ffffff;
+  font-weight: bold;
+  text-shadow:3px 3px 0 rgba(100,100,100,0.9)
+}
+
+.nav > li > a:hover {
+  border-style: solid;
+  border-width: medium;
+  border-color:  #ffffff;
+  background-color: inherit;
+}
+
+h3 {
+  text-shadow:2px 2px 0 rgba(200,200,200,0.9)
+}
+
+.carousel-caption {
+  position:absolute;
+  left:15%;
+  right:15%;
+  bottom:20px;
+  z-index:10;
+  padding-top:20px;
+  padding-bottom:20px;
+  color:#fff;
+  text-align:center;
+  text-shadow:0 1px 0 rgba(255,255,255,0.25)
 }
