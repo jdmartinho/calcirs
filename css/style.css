@@ -20,43 +20,57 @@ input[type="number"] {
     -moz-appearance: textfield;
 }
 
+h3 {
+  /*text-shadow:2px 2px 0 rgba(200,200,200,0.9)*/
+}
+
 .despesasCatB, .despesasCatF {
   display: none;
 }
 
-.jumbotron {
+.jumbotron {  
   background-color: #3f5893;
 }
 
 .jumbotron > h1 {
   color: #ffffff;
-  font-weight: bolder;
+  font-weight: normal;
   text-align: center;
-  text-shadow:5px 5px 0 rgba(100,100,100,0.9)
+  /*text-shadow:5px 0px 0 rgba(60,60,60,0.8);*/
+  font-family: 'Rubik', sans-serif;
 }
 
 .social a {
-  padding: 0 .5em;
+  padding: 0.5em;
   color: #ffffff;
 }
 
 .nav a {
   color: #ffffff;
   font-weight: bold;
-  text-shadow:3px 3px 0 rgba(100,100,100,0.9)
 }
 
-.nav > li > a:hover {
-  border-style: solid;
-  border-width: medium;
-  border-color:  #ffffff;
-  background-color: inherit;
+.footer-link {
+  padding-bottom: 10px;
 }
 
-h3 {
-  text-shadow:2px 2px 0 rgba(200,200,200,0.9)
+.row {
+  padding-top: 30px;
+  padding-bottom: 10px;
 }
 
+.fa {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.fa:hover {
+  color: #3f5893;
+  background-color: #ffffff;
+  border-radius: 5px;
+}
+
+/*
 .carousel-caption {
   position:absolute;
   left:15%;
@@ -69,3 +83,4 @@ h3 {
   text-align:center;
   text-shadow:0 1px 0 rgba(255,255,255,0.25)
 }
+*/

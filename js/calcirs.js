@@ -155,7 +155,7 @@ function algoritmo() {
   var colectaApuradaTotal = colectaTotal + impostoSolidariedadeDevido;
   console.log("Colecta Apurada Total: " + colectaApuradaTotal);
   // Calcular deducoes a colecta
-  var deducoesColecta = calcDeducoesTotal();
+  var deducoesColecta = calcDeducoesTotal(rendColect);
   console.log("Deducoes a Colecta: " + deducoesColecta);
   // Subtrair deducoes a colecta da colecta total para calcular o imposto devido
   var impostoFinal = calcColectaLiquida(colectaApuradaTotal, deducoesColecta);
@@ -320,10 +320,20 @@ function calcImposto(rendimentoColectavel) {
 }
 
 // Deducoes Colecta
-function calcDeducoesTotal() {
-  return calcDespesasSaude(despesasSaude) + calcDespesasEducacao(despesasEducacao) +
-    calcDespesasGerais(despesasGerais) + calcDespesasIVA(despesasIVA) +
-    calcDeducoesDependentes() + calcDeducoesAscendentes();
+function calcDeducoesTotal(rendColect) {
+  var deducoesSaude = calcDespesasSaude(despesasSaude);
+  var deducoesEducacao = calcDespesasEducacao(despesasEducacao);
+  var deducoesIVA = calcDespesasIVA(despesasIVA);
+  var deducoesGerais = calcDespesasGerais(despesasGerais);
+  var deducoesDescendentes = calcDeducoesDependentes();
+  var deducoesAscendentes = calcDeducoesAscendentes();
+
+  var limiteDeducoes = calcLimiteDeducoes(rendColect);
+  var deducoesParaLimite = deducoesSaude + deducoesEducacao + deducoesIVA;
+  if(deducoesParaLimite > limiteDeducoes && limiteDeducoes > 0){
+    deducoesParaLimite = limiteDeducoes;
+  }
+  return deducoesGerais + deducoesDescendentes + deducoesAscendentes + deducoesParaLimite;
 }
 
 function calcDespesasSaude(despesasSaude) {
@@ -363,10 +373,10 @@ function calcDespesasGerais(despesasGerais) {
     }
   } else {
     result = despesasGerais * taxaGeral;
-    if (result < limiteGeral) {
+    if (result < (limiteGeral * numContribuintes)) {
       return result;
     } else {
-      return limiteGeral;
+      return limiteGeral * numContribuintes;
     }
   }
 }
@@ -394,6 +404,28 @@ function calcDeducoesAscendentes() {
   } else {
     return DeducaoAscendenteUnico * ascendentes;
   }
+}
+
+/**
+ * € 1 000 + [€ 2 500 - € 1 000) x [valor do último escalão - Rendimento Coletável]] /
+ * valor do último escalão - valor do primeiro escalão;
+ * So aplicavel a deducoes de Saude; Educacao; Imoveis; Pensoes de Alimentos; IVA;
+ * Lares e Beneficios Fiscais
+ * Para agregados familiares com mais de 3 dependendes majoracao de 5% por dependente
+ */
+function calcLimiteDeducoes(rendimentoColectavel){
+  var limite = -1;
+  if(rendimentoColectavel <= Escalao1) {
+    return limite;
+  } else if (rendimentoColectavel > Escalao1 && rendimentoColectavel <= Escalao6) {
+    limite = 1000 + (1500 * (Escalao6 - rendimentoColectavel)) / (Escalao6 - Escalao1)
+  } else {
+    limite = 1000;
+  }
+  if(dependentes >= 3){
+    limite += limite * (0.05 * dependentes);
+  }
+  return limite;
 }
 
 // Colecta Liquida
