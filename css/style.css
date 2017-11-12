@@ -1,16 +1,37 @@
-body {
-
-}
-
-footer {
-  padding-bottom: 70px;
-  background-color: #3f5893;
-}
-
+/* Global */
 fieldset {
   padding-bottom: 30px;
 }
 
+output {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.money {
+  width: 110px;
+}
+
+.control-label {
+  font-size: 16px;
+  padding-top: 10px;
+  padding-bottom: 5px;
+}
+
+.situacaoPessoal > fieldset > div > div > select {
+  width: 220px;
+}
+
+.rendimentos > fieldset > div > div > select {
+  width: 100px;
+}
+
+/***** Hiding fields *****/
+.despesasCatB, .despesasCatF {
+  display: none;
+}
+
+/***** Hiding arrows in number fields *****/
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -20,15 +41,8 @@ input[type="number"] {
     -moz-appearance: textfield;
 }
 
-h3 {
-  /*text-shadow:2px 2px 0 rgba(200,200,200,0.9)*/
-}
-
-.despesasCatB, .despesasCatF {
-  display: none;
-}
-
-.jumbotron {  
+/***** Header *****/
+.jumbotron {
   background-color: #3f5893;
 }
 
@@ -38,6 +52,12 @@ h3 {
   text-align: center;
   /*text-shadow:5px 0px 0 rgba(60,60,60,0.8);*/
   font-family: 'Rubik', sans-serif;
+}
+
+/***** Footer *****/
+footer {
+  padding-bottom: 70px;
+  background-color: #3f5893;
 }
 
 .social a {
@@ -69,18 +89,3 @@ h3 {
   background-color: #ffffff;
   border-radius: 5px;
 }
-
-/*
-.carousel-caption {
-  position:absolute;
-  left:15%;
-  right:15%;
-  bottom:20px;
-  z-index:10;
-  padding-top:20px;
-  padding-bottom:20px;
-  color:#fff;
-  text-align:center;
-  text-shadow:0 1px 0 rgba(255,255,255,0.25)
-}
-*/
