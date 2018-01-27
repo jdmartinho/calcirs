@@ -23,6 +23,7 @@ const Escalao5MaxImposto = 4386.72;
 const Escalao6MaxImposto = 19702.8;
 // Outros impostos
 const ImpostoCapital = 0.28;
+const taxaResidenteNaoHabitual = 0.20;
 // Taxa Solidariedade
 const TaxaSolidariedade1 = 0.025;
 const TaxaSolidariedade2 = 0.05;
