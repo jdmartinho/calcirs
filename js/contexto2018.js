@@ -44,9 +44,7 @@ Contexto2018.prototype = function() {
   var DeducaoDependenteMais3Anos = 600;
   var DeducaoAscendenteUnico = 635;
   var DeducaoAscendentesMultiplos = 525;
-  // Quocientes
-  var QuocienteDependente = 0.3;
-  // Outros Valores
+    // Outros Valores
   var rendMinimoMensalGarantido2010 = 475;
   var indexanteApoioSocial = 421.32;
   var minimoExistencia = indexanteApoioSocial * 1.5 * 14;
