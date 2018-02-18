@@ -10,6 +10,7 @@ var despesasIVA;
 // Variaveis
 var rendimentoDependente;
 var rendimentoIndependente;
+var valorDespesasCatB;
 var rendimentoCapital;
 var rendimentoPredial;
 var rendimentoPensoes;
@@ -31,6 +32,7 @@ function init() {
   anoRendimentos = form.anoRendimentos.value;
   rendimentoDependente = form.rendimentoCatA.value || 0;
   rendimentoIndependente = form.rendimentoCatB.value || 0;
+  valorDespesasCatB = form.valorDespesasCatB.value || 0;
   rendimentoCapital = form.rendimentoCatE.value || 0;
   rendimentoPredial = form.rendimentoCatF.value || 0;
   rendimentoPensoes = form.rendimentoCatG.value || 0;
@@ -56,19 +58,20 @@ function init() {
   } else {
     familiaMonoparental = false;
   }
-  console.log(rendimentoDependente)
-  console.log(rendimentoIndependente)
-  console.log(rendimentoCapital)
-  console.log(rendimentoPredial)
-  console.log(rendimentoPensoes)
-  console.log(dependentes3Anos)
-  console.log(dependentes)
-  console.log(ascendentes)
-  console.log(estadoCivil)
-  console.log(despesasSaude)
-  console.log(despesasEducacao)
-  console.log(despesasIVA)
-  console.log(despesasGerais)
+  console.log(rendimentoDependente);
+  console.log(rendimentoIndependente);
+  console.log(valorDespesasCatB);
+  console.log(rendimentoCapital);
+  console.log(rendimentoPredial);
+  console.log(rendimentoPensoes);
+  console.log(dependentes3Anos);
+  console.log(dependentes);
+  console.log(ascendentes);
+  console.log(estadoCivil);
+  console.log(despesasSaude);
+  console.log(despesasEducacao);
+  console.log(despesasIVA);
+  console.log(despesasGerais);
   console.log(propriedadeIntelectual);
 
   var contexto;

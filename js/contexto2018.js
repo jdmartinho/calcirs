@@ -38,17 +38,18 @@ Contexto2018.prototype = function() {
   // Deducoes especificas
   var DeducaoRendDependente = 4104;
   var DeducaoRendIndependentePercent = 0.75;
-  var LimiteDeducaoRendPensoes = 22500;
-  var DeducaoReduzidaRendPensoes = 0.8;
+  var DespesasCatBPercent = 0.15;
   var DeducaoDependenteMenos3Anos = 726;
   var DeducaoDependenteMais3Anos = 600;
   var DeducaoAscendenteUnico = 635;
   var DeducaoAscendentesMultiplos = 525;
     // Outros Valores
   var rendMinimoMensalGarantido2010 = 475;
-  var indexanteApoioSocial = 421.32;
+  var indexanteApoioSocial = 428.9;
   var minimoExistencia = indexanteApoioSocial * 1.5 * 14;
   var limiteRendPropIntelectual = 10000;
+  var rendMinimoAnualGarantido = 8120;
+  var rendMinimoMensalGarantido = 580;
   // Algoritmo para rendimento em 2018
   var algoritmo = function() {
     var rendimentoTotal = parseFloat(rendimentoDependente) + parseFloat(rendimentoIndependente) +
@@ -123,7 +124,13 @@ Contexto2018.prototype = function() {
         }
         result = parseFloat(rendimentoIndependente) - parcelaRendimentoIsento;
       }
-      return result * DeducaoRendIndependentePercent;
+      var valorASomarARendimentoTributavel = result * DespesasCatBPercent;
+      var valorDeducaoTotal = DeducaoRendDependente + parseFloat(valorDespesasCatB);
+      var abatimentoADeducao = valorASomarARendimentoTributavel - valorDeducaoTotal;
+      if(abatimentoADeducao < 0){
+        abatimentoADeducao = 0;
+      }
+      return (result * DeducaoRendIndependentePercent) + abatimentoADeducao;
     }
   },
 
