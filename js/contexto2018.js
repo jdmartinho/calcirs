@@ -47,6 +47,8 @@ Contexto2018.prototype = function() {
   var rendMinimoMensalGarantido2010 = 475;
   var indexanteApoioSocial = 428.9;
   var minimoExistencia = indexanteApoioSocial * 1.5 * 14;
+  var minimoExistenciaCom3Ou4Dependentes = 11320;
+  var minimoExistenciaCom5OuMaisDependendtes = 15560;
   var limiteRendPropIntelectual = 10000;
   var rendMinimoAnualGarantido = 8120;
   var rendMinimoMensalGarantido = 580;
@@ -87,7 +89,30 @@ Contexto2018.prototype = function() {
     if (impostoFinal < 0) {
       impostoFinal = 0;
     }
-
+    // Minimo de Existencia
+    if(rendimentoCapital == 0 && rendimentoPredial == 0){
+      var numDependentes = dependentes + dependentes3Anos;
+      if(numDependentes < 3){
+        // Aplica-se o minimo de existencia ao rendimento liquido
+        var rendLiquidoDeImposto = rendimentoTotal - impostoFinal;
+        if(rendLiquidoDeImposto < minimoExistencia){
+          impostoFinal = rendimentoTotal - minimoExistencia;
+          if(impostoFinal < 0){
+            impostoFinal = 0;
+          }
+        }
+      } else {
+        // Aplica-se minimos de existencia ao rendimento colectavel
+        if(numDependentes < 5){
+          if(rendColect < minimoExistenciaCom3Ou4Dependentes){
+            impostoFinal = 0;
+          }
+        } else if(rendColect < minimoExistenciaCom5OuMaisDependendtes){
+          impostoFinal = 0;
+        }
+      }
+    }
+    console.log("Imposto Final apos Minimo de Existencia: " + impostoFinal);
     // Resultados
     $("#impostoAPagar").val(impostoFinal.formatMoney(2) + " €");
     $("#taxaEfectiva").val(((impostoFinal / rendimentoTotal) * 100).toFixed(2) + " %");
