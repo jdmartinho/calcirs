@@ -27,7 +27,7 @@ var obras;
 var impostoMunicipalImoveis;
 
 function init() {
-  var form = document.getElementById('taxForm');
+  var form = document.getElementById("taxForm");
   console.log("init");
   anoRendimentos = form.anoRendimentos.value;
   rendimentoDependente = form.rendimentoCatA.value || 0;
@@ -75,23 +75,27 @@ function init() {
   console.log(propriedadeIntelectual);
 
   var contexto;
-  if(anoRendimentos == "2017"){
+  if (anoRendimentos == "2017") {
     contexto = new Contexto2017();
   } else {
-    contexto = new Contexto2018();
+    if (anoRendimentos == "2021") {
+      contexto = new Contexto2021();
+    } else {
+      contexto = new Contexto2018();
+    }
   }
 
   contexto.algoritmo();
 }
 
 // Muda a visibilidade das despesas para Rendimentos Independentes
-$("#rendimentoCatB").change(function() {
+$("#rendimentoCatB").change(function () {
   var notSelected = $("#rendimentoCatB").val() <= 0;
   $(".despesasCatB").toggle(!notSelected);
 });
 
 // Muda a visibilidade das despesas para Rendimentos Prediais
-$("#rendimentoCatF").change(function() {
+$("#rendimentoCatF").change(function () {
   var notSelected = $("#rendimentoCatF").val() <= 0;
   $(".despesasCatF").toggle(!notSelected);
 });
